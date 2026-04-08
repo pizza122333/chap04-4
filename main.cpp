@@ -1,0 +1,45 @@
+#include "opencv2/opencv.hpp"
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+int main(void)
+{
+    // 1. 컬러 영상으로 읽기
+    Mat img = imread("lenna.bmp", IMREAD_COLOR);
+    if (img.empty()) {
+        cerr << "Image load failed!" << endl;
+        return -1;
+    }
+
+    const String winName = "Exercise 1";
+    imshow(winName, img);
+
+    while (true) {
+        int keycode = waitKey();
+
+        // l(엘): 얼굴 아래에 직선 그리기
+        if (keycode == 'l' || keycode == 'L') {
+            line(img, Point(200, 400), Point(350, 400), Scalar(0, 255, 0), 3);
+        }
+        // c: 얼굴 주위에 원 그리기
+        else if (keycode == 'c' || keycode == 'C') {
+            circle(img, Point(275, 275), 100, Scalar(255, 0, 0), 3);
+        }
+        // t: 영상 상단에 문자열 출력
+        else if (keycode == 't' || keycode == 'T') {
+            putText(img, "Hello Lenna!", Point(50, 50), FONT_HERSHEY_SIMPLEX, 1.2, Scalar(0, 0, 255), 2);
+        }
+        // q: 프로그램 종료
+        else if (keycode == 'q' || keycode == 'Q') {
+            break;
+        }
+
+        // 변화된 영상을 화면에 다시 출력
+        imshow(winName, img);
+    }
+
+    destroyAllWindows();
+    return 0;
+}
